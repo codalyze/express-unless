@@ -40,11 +40,15 @@ module.exports = function (options) {
       skip = skip || !!~methods.indexOf(req.method);
     }
 
-    if (skip) {
-      return next();
-    }
+    // do not stop running the parent middleware, but rather add to req if we want to skip or not.
+    req.shouldSkipCredentialCheck = skip;
+    next();
 
-    parent(req, res, next);
+    // if (skip) {
+    //   return next();
+    // }
+
+    // parent(req, res, next);
   };
 };
 
