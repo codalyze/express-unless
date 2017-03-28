@@ -1,11 +1,11 @@
 var URL = require('url');
 
 module.exports = function (options) {
-  var parent = this;
+  
+  // var parent = this;
 
   var opts = typeof options === 'function' ? {custom: options} : options;
   opts.useOriginalUrl = (typeof opts.useOriginalUrl === 'undefined') ? true : opts.useOriginalUrl;
-
   return function (req, res, next) {
     var url = URL.parse((opts.useOriginalUrl ? req.originalUrl : req.url) || req.url || '', true);
 
@@ -42,7 +42,8 @@ module.exports = function (options) {
 
     // do not stop running the parent middleware, but rather add to req if we want to skip or not.
     req.shouldSkipCredentialCheck = skip;
-    next();
+
+    return next();
 
     // if (skip) {
     //   return next();
